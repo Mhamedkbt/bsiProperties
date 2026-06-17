@@ -14,8 +14,67 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
-  title: 'LaTour Immo',
-  description: 'Luxury real estate in Morocco',
+  title: {
+    default: 'LaTour Immo — Immobilier de Luxe au Maroc',
+    template: '%s | LaTour Immo',
+  },
+  description: 'LaTour Immo est votre agence immobilière de référence au Maroc. Découvrez nos villas de luxe, appartements modernes et espaces commerciaux à Casablanca, Marrakech, Agadir, Rabat et Tanger.',
+  keywords: [
+    'immobilier maroc',
+    'agence immobilière maroc',
+    'villa maroc',
+    'appartement maroc',
+    'achat immobilier maroc',
+    'location immobilier maroc',
+    'luxe immobilier maroc',
+    'casablanca immobilier',
+    'marrakech immobilier',
+    'agadir immobilier',
+    'LaTour Immo',
+    'real estate morocco',
+    'luxury villa morocco',
+  ],
+  authors: [{ name: 'LaTour Immo' }],
+  creator: 'LaTour Immo',
+  publisher: 'LaTour Immo',
+  icons: {
+    icon: '/images/LaToorImmoLogo.jpg',
+    shortcut: '/images/LaToorImmoLogo.jpg',
+    apple: '/images/LaToorImmoLogo.jpg',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_MA',
+    url: 'https://latourImmomaroc.com',
+    siteName: 'LaTour Immo',
+    title: 'LaTour Immo — Immobilier de Luxe au Maroc',
+    description: 'Découvrez nos propriétés exclusives au Maroc. Villas, appartements et espaces commerciaux de prestige.',
+    images: [
+      {
+        url: '/images/LaToorImmoLogo.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'LaTour Immo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LaTour Immo — Immobilier de Luxe au Maroc',
+    description: 'Découvrez nos propriétés exclusives au Maroc.',
+    images: ['/images/LaToorImmoLogo.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 const locales = ['fr', 'en', 'ar', 'es']

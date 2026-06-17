@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://latourImmomaroc.com/sitemap.xml
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/

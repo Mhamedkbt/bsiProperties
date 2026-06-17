@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { TestimonialsSlider } from "../../components/TestimonialsSlider";
 
 const contactInfo = [
   {
@@ -323,6 +324,10 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* testimonials slider */}
+      <TestimonialsSlider />
+
     </div>
   )
 }

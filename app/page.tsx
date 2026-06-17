@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
+import { TestimonialsSlider } from "../components/TestimonialsSlider";
 
 const isVideoUrl = (url: string): boolean => {
   return /\.(mp4|webm|mov|avi|quicktime)(\?|$)/i.test(url);
@@ -465,7 +466,7 @@ export default function Home() {
           </div>
           <div className="relative h-[450px] overflow-hidden rounded-2xl shadow-xl bg-gray-100 group">
             <img 
-              src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80"
+              src="/images/modern-luxury-villa-pool-medulin.jpg"
               alt="Luxury Morocco Riad Interior Architecture"
               className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
             />
@@ -473,6 +474,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </>
+      <TestimonialsSlider />
+          </>
   );
 }

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
+import { TestimonialsSlider } from "../../components/TestimonialsSlider";
 
 const values = [
   {
@@ -285,6 +286,11 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <TestimonialsSlider />
+      
     </div>
+
+
   );
 }

@@ -2,6 +2,7 @@
 
 import { FormEvent, useState, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
+import { TestimonialsSlider } from "../../components/TestimonialsSlider";
 
 const isVideoFile = (file: File): boolean => file.type.startsWith('video/')
 
@@ -631,8 +632,11 @@ export default function EvaluationPage() {
           </div>
         </div>
       </section>
+
+      {/* testimonials slider */}
+      <TestimonialsSlider />
+
     </div>
   )
 }
 
-//Click to upload photos & videos Add more

@@ -23,7 +23,6 @@ interface Property {
   created_at: string | null;
 }
 
-// Updated data targets exactly matching your requested values
 const statsData = [
   { target: 20, suffix: "+", label: "Properties" },
   { target: 3, suffix: "+", label: "Years Experience" },
@@ -38,6 +37,9 @@ export default function Home() {
   const [status, setStatus] = useState("");
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [loadingProperties, setLoadingProperties] = useState(true);
+  
+  // Entire screen loading control state
+  const [pageLoading, setPageLoading] = useState(true);
 
   // States for animated counters
   const [counts, setCounts] = useState([0, 0, 0, 0]);
@@ -55,12 +57,18 @@ export default function Home() {
 
       if (error) {
         console.error("Error fetching featured properties:", error);
-        setLoadingProperties(false); // FIXED typo here
+        setLoadingProperties(false);
+        setPageLoading(false);
         return;
       }
 
       setFeaturedProperties(data ?? []);
-      setLoadingProperties(false); // FIXED typo here
+      setLoadingProperties(false);
+      
+      // Small intentional timeout so the screen animation feels professional and fluid
+      setTimeout(() => {
+        setPageLoading(false);
+      }, 600);
     };
 
     fetchFeaturedProperties();
@@ -77,7 +85,7 @@ export default function Home() {
         if (entry.isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true;
           
-          const duration = 1500; // Total animation length in ms
+          const duration = 1500; 
           const frameRate = 1000 / 60; 
           const totalFrames = Math.round(duration / frameRate);
           let frame = 0;
@@ -85,7 +93,6 @@ export default function Home() {
           const timer = setInterval(() => {
             frame++;
             const progress = frame / totalFrames;
-            // Ease out quad formula for smooth decelerating crawl
             const easeProgress = progress * (2 - progress); 
 
             const nextCounts = statsData.map((stat) => 
@@ -120,6 +127,22 @@ export default function Home() {
 
   return (
     <>
+      {/* Perfect Full Screen Entry Spinner */}
+      {pageLoading && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#1a2b4a] transition-all duration-500">
+          <div className="relative flex h-20 w-20 items-center justify-center">
+            {/* Inner dynamic ring */}
+            <div className="absolute h-full w-full rounded-full border-4 border-[#c9a84c]/10"></div>
+            <div className="absolute h-full w-full rounded-full border-4 border-t-[#c9a84c] border-r-transparent border-b-transparent border-l-transparent animate-spin duration-700"></div>
+            {/* Secondary reverse counter pulse inner core ring */}
+            <div className="absolute h-12 w-12 rounded-full border-[3px] border-b-[#white] border-t-transparent border-r-transparent border-l-transparent animate-[spin_1s_linear_infinite_reverse] opacity-40"></div>
+          </div>
+          <p className="mt-6 text-sm font-semibold tracking-widest text-[#c9a84c] uppercase animate-pulse">
+            LaTour Immo
+          </p>
+        </div>
+      )}
+
       {/* Dynamic Animated Hero Section */}
       <section className="relative flex min-h-[90vh] items-center justify-center bg-[#0d1a2e00] px-4 py-20 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-hidden">
@@ -233,7 +256,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Perfect Loading Spinner and Skeleton View */}
           {loadingProperties && (
             <div className="mt-16 flex flex-col items-center justify-center gap-12">
               <div className="relative flex h-14 w-14 items-center justify-center">
@@ -274,7 +296,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Premium Formatted Dynamic Cards */}
           {!loadingProperties && featuredProperties.length > 0 && (
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {featuredProperties.map((property) => (
@@ -317,7 +338,6 @@ export default function Home() {
                       </div>
                     )}
                     
-                    {/* Tags Container styled neatly */}
                     <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
                       {property.type && (
                         <span className="rounded-lg bg-[#1a2b4a] px-3 py-1.5 text-xs font-medium text-white capitalize shadow-sm backdrop-blur-xs">
@@ -386,7 +406,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Counter Section - Triggers smoothly from zero when scrolled into frame */}
+      {/* Stats Counter Section */}
       <section ref={statsRef} className="bg-[#1a2b4a] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-10 gap-x-4 lg:grid-cols-4">
           {statsData.map((stat, idx) => (
@@ -402,7 +422,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section with Real Premium Architectural Image */}
+      {/* About Section */}
       <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
           <div>
@@ -442,7 +462,3 @@ export default function Home() {
     </>
   );
 }
-
-
-
-

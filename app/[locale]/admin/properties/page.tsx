@@ -24,7 +24,6 @@ const navItems = [
   { labelKey: "nav_dashboard", href: "/admin/dashboard", icon: "dashboard" },
   { labelKey: "nav_properties", href: "/admin/properties", icon: "properties" },
   { labelKey: "nav_messages", href: "/admin/messages", icon: "messages" },
-  { labelKey: "nav_evaluations", href: "/admin/evaluations", icon: "evaluations" },
 ];
 
 function getIcon(iconType: string) {
@@ -531,7 +530,7 @@ export default function PropertiesPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#c9a84c]"></div>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#C9A55A]"></div>
           <p className="mt-4 text-gray-600">{t("loading")}</p>
         </div>
       </div>
@@ -549,7 +548,7 @@ export default function PropertiesPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-[#1a2b4a] text-white shadow-lg transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-auto top-16 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-[#6B1929] text-white shadow-lg transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-auto top-16 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -562,7 +561,7 @@ export default function PropertiesPage() {
                 onClick={closeSidebar}
                 className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-white/10 focus:outline-none focus:bg-white/10"
               >
-                <span className="text-[#c9a84c]">{getIcon(item.icon)}</span>
+                <span className="text-[#C9A55A]">{getIcon(item.icon)}</span>
                 {t(item.labelKey)}
               </Link>
             ))}
@@ -572,7 +571,7 @@ export default function PropertiesPage() {
             <button
               onClick={handleLogout}
               disabled={logoutLoading}
-              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#c9a84c] px-4 py-3 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#C9A55A] px-4 py-3 text-sm font-semibold text-[#6B1929] transition-colors hover:bg-[#D4B56A] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#C9A55A]"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -600,7 +599,7 @@ export default function PropertiesPage() {
 
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="mb-4 inline-flex md:hidden items-center justify-center rounded-lg p-2 text-[#1a2b4a] hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+            className="mb-4 inline-flex md:hidden items-center justify-center rounded-lg p-2 text-[#6B1929] hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-[#C9A55A]"
             aria-label="Toggle menu"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -614,12 +613,12 @@ export default function PropertiesPage() {
 
           <div className="mt-8 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#1a2b4a]">{t("manage_properties_title")}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#6B1929]">{t("manage_properties_title")}</h2>
               <p className="mt-1 text-sm text-gray-600">{filteredProperties.length} properties</p>
             </div>
             <button
               onClick={() => setShowModal(true)}
-              className="inline-flex items-center gap-2 rounded-lg bg-[#c9a84c] px-4 py-3 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#C9A55A] px-4 py-3 text-sm font-semibold text-[#6B1929] transition-colors hover:bg-[#D4B56A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -634,12 +633,12 @@ export default function PropertiesPage() {
               placeholder={t("search_placeholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30 flex-1"
+              className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30 flex-1"
             />
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30 sm:min-w-[150px]"
+              className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#6B1929] focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30 sm:min-w-[150px]"
             >
               <option value="">{t("all_types")}</option>
               <option value="Apartment">{t("apartment")}</option>
@@ -650,7 +649,7 @@ export default function PropertiesPage() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30 sm:min-w-[150px]"
+              className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm text-[#6B1929] focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30 sm:min-w-[150px]"
             >
               <option value="">{t("all_statuses")}</option>
               <option value="Sale">{t("sale")}</option>
@@ -660,7 +659,7 @@ export default function PropertiesPage() {
 
           {loading ? (
             <div className="rounded-xl border border-gray-100 bg-white p-8 text-center">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#c9a84c]"></div>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#C9A55A]"></div>
               <p className="mt-3 text-gray-600">{t("loading_properties")}</p>
             </div>
           ) : filteredProperties.length === 0 ? (
@@ -672,14 +671,14 @@ export default function PropertiesPage() {
               <table className="w-full">
                 <thead className="border-b border-gray-200 bg-gray-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#1a2b4a]">{t("image")}</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#1a2b4a]">{t("title")}</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#1a2b4a]">{t("city")}</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#1a2b4a]">{t("type")}</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#1a2b4a]">{t("status")}</th>
-                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#1a2b4a]">{t("price")}</th>
-                    <th className="px-4 py-3 text-center text-xs font-semibold text-[#1a2b4a]">{t("featured")}</th>
-                    <th className="px-4 py-3 text-center text-xs font-semibold text-[#1a2b4a]">{t("actions")}</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#6B1929]">{t("image")}</th>
+                    <th className="min-w-[160px] px-4 py-3 text-left text-xs font-semibold text-[#6B1929]">{t("title")}</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#6B1929]">{t("city")}</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#6B1929]">{t("type")}</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#6B1929]">{t("status")}</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#6B1929]">{t("price")}</th>
+                    <th className="px-4 py-3 text-center text-xs font-semibold text-[#6B1929]">{t("featured")}</th>
+                    <th className="px-4 py-3 text-center text-xs font-semibold text-[#6B1929]">{t("actions")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -700,7 +699,7 @@ export default function PropertiesPage() {
                           </div>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-sm font-medium text-[#1a2b4a]">{property.title}</td>
+                      <td className="px-4 py-3 text-sm font-medium text-[#6B1929]">{property.title}</td>
                       <td className="px-4 py-3 text-sm text-gray-600">{property.city}</td>
                       <td className="px-4 py-3">
                         <span className="inline-block rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800">
@@ -718,7 +717,7 @@ export default function PropertiesPage() {
                           {property.status}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm font-semibold text-[#c9a84c]">
+                      <td className="px-4 py-3 text-sm font-semibold text-[#C9A55A]">
                         {property.price.toLocaleString()} MAD
                       </td>
                       <td className="px-4 py-3 text-center">
@@ -726,7 +725,7 @@ export default function PropertiesPage() {
                           onClick={() => handleToggleFeatured(property.id, property.featured)}
                           className={`inline-flex items-center justify-center rounded-full p-1.5 transition-colors ${
                             property.featured
-                              ? "bg-[#c9a84c]/20 text-[#c9a84c]"
+                              ? "bg-[#C9A55A]/20 text-[#C9A55A]"
                               : "bg-gray-100 text-gray-400"
                           }`}
                         >
@@ -766,8 +765,8 @@ export default function PropertiesPage() {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="max-h-screen w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">
-            <div className="sticky top-0 border-b border-gray-200 bg-white p-6 sm:p-8">
+    <div className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">   
+    <div className="sticky top-0 border-b border-gray-200 bg-white p-6 sm:p-8">
               <button
                 type="button"
                 onClick={() => cleanupAndClose()}
@@ -778,7 +777,7 @@ export default function PropertiesPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <h3 className="text-2xl font-bold text-[#1a2b4a]">
+              <h3 className="text-2xl font-bold text-[#6B1929]">
                 {editingPropertyId ? t("edit_property") : t("add_property")}
               </h3>
             </div>
@@ -792,22 +791,22 @@ export default function PropertiesPage() {
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-[#1a2b4a]">{t("title_required")}</label>
+                  <label className="block text-sm font-medium text-[#6B1929]">{t("title_required")}</label>
                   <input
                     type="text"
                     required
                     placeholder="Property title"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#1a2b4a]">{t("type_required")}</label>
+                  <label className="block text-sm font-medium text-[#6B1929]">{t("type_required")}</label>
                   <select
                     value={formData.type}
                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                   >
                     <option value="Apartment">Apartment</option>
                     <option value="Villa">Villa</option>
@@ -819,58 +818,58 @@ export default function PropertiesPage() {
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-[#1a2b4a]">{t("city_required")}</label>
+                  <label className="block text-sm font-medium text-[#6B1929]">{t("city_required")}</label>
                   <input
                     type="text"
                     required
                     placeholder="City name"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#1a2b4a]">{t("price_required")}</label>
+                  <label className="block text-sm font-medium text-[#6B1929]">{t("price_required")}</label>
                   <input
                     type="number"
                     required
                     placeholder="Price"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                   />
                 </div>
               </div>
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-[#1a2b4a]">{t("surface_label")}</label>
+                  <label className="block text-sm font-medium text-[#6B1929]">{t("surface_label")}</label>
                   <input
                     type="number"
                     placeholder="Surface"
                     value={formData.surface}
                     onChange={(e) => setFormData({ ...formData, surface: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#1a2b4a]">{t("rooms_label")}</label>
+                  <label className="block text-sm font-medium text-[#6B1929]">{t("rooms_label")}</label>
                   <input
                     type="number"
                     placeholder="Number of rooms"
                     value={formData.rooms}
                     onChange={(e) => setFormData({ ...formData, rooms: e.target.value })}
-                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                    className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#1a2b4a]">{t("status_required")}</label>
+                <label className="block text-sm font-medium text-[#6B1929]">{t("status_required")}</label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                  className="mt-2 w-full rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                 >
                   <option value="Sale">Sale</option>
                   <option value="Rent">Rent</option>
@@ -878,13 +877,13 @@ export default function PropertiesPage() {
               </div>
 
 <div>
-  <label className="block text-sm font-medium text-[#1a2b4a]">{t("description_label")}</label>
+  <label className="block text-sm font-medium text-[#6B1929]">{t("description_label")}</label>
   <textarea
     placeholder="Property description"
     rows={6}
     value={formData.description}
     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-    className="mt-2 w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30 leading-relaxed"
+    className="mt-2 w-full resize-none rounded-lg border border-gray-200 px-4 py-2.5 text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30 leading-relaxed"
   />
 </div>
 
@@ -894,16 +893,16 @@ export default function PropertiesPage() {
                   type="checkbox"
                   checked={formData.featured}
                   onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                  className="h-4 w-4 rounded border-gray-300 text-[#c9a84c] focus:ring-[#c9a84c]"
+                  className="h-4 w-4 rounded border-gray-300 text-[#C9A55A] focus:ring-[#C9A55A]"
                 />
-                <label htmlFor="featured" className="text-sm font-medium text-[#1a2b4a]">
+                <label htmlFor="featured" className="text-sm font-medium text-[#6B1929]">
                   Featured Property
                 </label>
               </div>
 
               {(existingImages.length > 0 || previewImages.length > 0) && (
                 <div>
-                  <label className="block text-sm font-medium text-[#1a2b4a] mb-3">{t("current_images")}</label>
+                  <label className="block text-sm font-medium text-[#6B1929] mb-3">{t("current_images")}</label>
                   <div className={`${
                     existingImages.length + previewImages.length > 4
                       ? 'flex overflow-x-auto gap-2 pb-2'
@@ -916,8 +915,8 @@ export default function PropertiesPage() {
                         <div
                           className={`aspect-square rounded-lg overflow-hidden border-2 cursor-pointer transition-colors ${
                             mainImageIndex === index
-                              ? "border-[#c9a84c] shadow-lg"
-                              : "border-gray-200 hover:border-[#c9a84c]"
+                              ? "border-[#C9A55A] shadow-lg"
+                              : "border-gray-200 hover:border-[#C9A55A]"
                           }`}
                           onClick={() => setMainImageIndex(index)}
                         >
@@ -961,8 +960,8 @@ export default function PropertiesPage() {
                             />
                           )}
                           {mainImageIndex === index && (
-                            <div className="absolute inset-0 bg-[#c9a84c]/20 flex items-center justify-center">
-                              <span className="text-xl font-bold text-[#c9a84c]">★</span>
+                            <div className="absolute inset-0 bg-[#C9A55A]/20 flex items-center justify-center">
+                              <span className="text-xl font-bold text-[#C9A55A]">★</span>
                             </div>
                           )}
                         </div>
@@ -975,7 +974,7 @@ export default function PropertiesPage() {
   ×
 </button>
                         {mainImageIndex === index && (
-                          <div className="absolute bottom-0 left-0 right-0 bg-[#c9a84c] text-[#1a2b4a] text-xs font-semibold py-1 text-center">
+                          <div className="absolute bottom-0 left-0 right-0 bg-[#C9A55A] text-[#6B1929] text-xs font-semibold py-1 text-center">
                             Main Cover
                           </div>
                         )}
@@ -988,8 +987,8 @@ export default function PropertiesPage() {
                         <div
                           className={`aspect-square rounded-lg overflow-hidden border-2 border-dashed cursor-pointer transition-colors ${
                             mainImageIndex === existingImages.length + index
-                              ? "border-[#c9a84c] shadow-lg bg-[#c9a84c]/5"
-                              : "border-blue-300 hover:border-[#c9a84c]"
+                              ? "border-[#C9A55A] shadow-lg bg-[#C9A55A]/5"
+                              : "border-blue-300 hover:border-[#C9A55A]"
                           }`}
                           onClick={() => setMainImageIndex(existingImages.length + index)}
                         >
@@ -1024,8 +1023,8 @@ export default function PropertiesPage() {
                             />
                           )}
                           {mainImageIndex === existingImages.length + index && (
-                            <div className="absolute inset-0 bg-[#c9a84c]/20 flex items-center justify-center">
-                              <span className="text-xl font-bold text-[#c9a84c]">★</span>
+                            <div className="absolute inset-0 bg-[#C9A55A]/20 flex items-center justify-center">
+                              <span className="text-xl font-bold text-[#C9A55A]">★</span>
                             </div>
                           )}
                           <div className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-2 py-0.5 rounded font-semibold">
@@ -1041,7 +1040,7 @@ export default function PropertiesPage() {
                           ×
                         </button>
                         {mainImageIndex === existingImages.length + index && (
-                          <div className="absolute bottom-0 left-0 right-0 bg-[#c9a84c] text-[#1a2b4a] text-xs font-semibold py-1 text-center">
+                          <div className="absolute bottom-0 left-0 right-0 bg-[#C9A55A] text-[#6B1929] text-xs font-semibold py-1 text-center">
                             Main Cover
                           </div>
                         )}
@@ -1052,13 +1051,13 @@ export default function PropertiesPage() {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-[#1a2b4a]">{t("upload_photos")}</label>
+                <label className="block text-sm font-medium text-[#6B1929]">{t("upload_photos")}</label>
                 <input
                   type="file"
                   accept="image/*"
                   multiple
                   onChange={handleFileSelect}
-                  className="mt-2 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-[#1a2b4a] file:mr-4 file:rounded-md file:border-0 file:bg-[#1a2b4a] file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-[#243a5e] focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                  className="mt-2 w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-[#6B1929] file:mr-4 file:rounded-md file:border-0 file:bg-[#6B1929] file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-[#243a5e] focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                 />
                 {imageFiles.length > 0 && (
                   <p className="mt-1.5 text-xs text-gray-600">{imageFiles.length} file(s) selected for upload</p>
@@ -1069,14 +1068,14 @@ export default function PropertiesPage() {
                 <button
                   type="button"
                   onClick={() => cleanupAndClose()}
-                  className="rounded-lg border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                  className="rounded-lg border border-gray-300 bg-white px-6 py-2.5 text-sm font-semibold text-[#6B1929] transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400"
                 >
                   {t("cancel")}
                 </button>
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="rounded-lg bg-[#c9a84c] px-6 py-2.5 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+                  className="rounded-lg bg-[#C9A55A] px-6 py-2.5 text-sm font-semibold text-[#6B1929] transition-colors hover:bg-[#D4B56A] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#C9A55A]"
                 >
                   {isSaving ? t("saving") : t("save")}
                 </button>

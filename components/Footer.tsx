@@ -12,14 +12,7 @@ const quickLinks = [
   { href: "/evaluation", key: "evaluation" },
 ] as const;
 
-const cities = [
-  "Casablanca",
-  "Marrakech",
-  "Rabat",
-  "Tangier",
-  "Agadir",
-  "Fes",
-];
+const cityKeys = ["city_tangier", "city_tetouan", "city_casablanca", "city_marrakech"] as const;
 
 const socialLinks = [
   {
@@ -52,13 +45,12 @@ export default function Footer() {
   const tNav = useTranslations("nav");
 
   return (
-    <footer className="mt-auto bg-[#1a2b4a] text-white">
+    <footer className="mt-auto bg-[#4A1020] text-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
-            <Link href={`/${locale}`} className="inline-block text-2xl font-bold">
-              <span className="text-white">LaTour</span>
-              <span className="text-[#c9a84c]"> Immo</span>
+            <Link href={`/${locale}`} className="inline-block">
+              <img src="/images/bsiLogo.png" className="h-12 w-auto" alt="BSI Properties" />
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-gray-300">
               {t("description")}
@@ -71,7 +63,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className="text-white transition-colors hover:text-[#c9a84c]"
+                  className="text-white transition-colors hover:text-[#C9A55A]"
                 >
                   <svg
                     className="h-6 w-6 fill-current"
@@ -86,7 +78,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#c9a84c]">
+            <h3 className="text-lg font-semibold text-[#C9A55A]">
               {t("quick_links")}
             </h3>
             <ul className="mt-4 space-y-3">
@@ -94,7 +86,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={`/${locale}${link.href === "/" ? "" : link.href}`}
-                    className="text-sm text-gray-300 transition-colors hover:text-[#c9a84c]"
+                    className="text-sm text-gray-300 transition-colors hover:text-[#C9A55A]"
                   >
                     {tNav(link.key)}
                   </Link>
@@ -104,53 +96,48 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#c9a84c]">
+            <h3 className="text-lg font-semibold text-[#C9A55A]">
               {t("contact_info")}
             </h3>
             <ul className="mt-4 space-y-3 text-sm text-gray-300">
               <li>
                 <a
-                  href="tel:0661141811"
-                  className="transition-colors hover:text-[#c9a84c]"
+                  href="tel:+212620060000"
+                  className="transition-colors hover:text-[#C9A55A]"
                 >
-                  0661141811
+                  {t("phone_primary")}
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:0771141811"
-                  className="transition-colors hover:text-[#c9a84c]"
+                  href="tel:+212666960926"
+                  className="transition-colors hover:text-[#C9A55A]"
                 >
-                  0771141811
+                  {t("phone_secondary")}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:latourimmo.rabat@gmail.com"
-                  className="transition-colors hover:text-[#c9a84c]"
+                  href="mailto:contact@bsiproperties.ma"
+                  className="transition-colors hover:text-[#C9A55A]"
                 >
-                  latourimmo.rabat@gmail.com
+                  {t("email")}
                 </a>
-              </li>
-              <li>
-                123 Boulevard Mohammed V
-                <br />
-                Casablanca, Morocco
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#c9a84c]">
+            <h3 className="text-lg font-semibold text-[#C9A55A]">
               {t("cities_we_serve")}
             </h3>
             <ul className="mt-4 grid grid-cols-2 gap-2">
-              {cities.map((city) => (
+              {cityKeys.map((cityKey) => (
                 <li
-                  key={city}
-                  className="text-sm text-gray-300 before:mr-2 before:text-[#c9a84c] before:content-['•']"
+                  key={cityKey}
+                  className="text-sm text-gray-300 before:mr-2 before:text-[#C9A55A] before:content-['•']"
                 >
-                  {city}
+                  {t(cityKey)}
                 </li>
               ))}
             </ul>
@@ -162,7 +149,7 @@ export default function Footer() {
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <p className="text-center text-sm text-gray-400 md:text-left">
-              &copy; {currentYear} LaTour Immo. {t("all_rights_reserved")}.
+              &copy; {currentYear} {t("brand_name")}. {t("all_rights_reserved")}.
             </p>
             <div className="flex items-center justify-center md:justify-end">
               <span className="mr-3 text-sm text-gray-400">{t("language")}</span>

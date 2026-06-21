@@ -122,7 +122,7 @@ export default function LanguageSwitcher() {
         className="flex items-center gap-2 rounded-lg border border-white/20 
                    bg-white/10 px-3 py-2 text-white backdrop-blur-sm 
                    transition-all duration-200 hover:bg-white/20 
-                   hover:border-[#c9a84c]/50 min-w-[80px]"
+                   hover:border-[#C9A55A]/50 min-w-[80px]"
       >
         {current.flag}
         <span className="text-xs font-bold tracking-wider">{current.short}</span>
@@ -154,7 +154,7 @@ export default function LanguageSwitcher() {
               className={`flex w-full items-center gap-3 px-4 py-3 
                           text-left text-sm transition-colors duration-150
                           ${locale === lang.code
-                            ? 'bg-[#c9a84c]/10 font-bold text-[#c9a84c]'
+                            ? 'bg-[#C9A55A]/10 font-bold text-[#C9A55A]'
                             : 'font-medium text-gray-700 hover:bg-gray-50'
                           }`}
             >
@@ -162,7 +162,7 @@ export default function LanguageSwitcher() {
               <span className="flex-1">{lang.label}</span>
               {locale === lang.code && (
                 <svg xmlns="http://www.w3.org/2000/svg"
-                     className="h-4 w-4 flex-shrink-0 text-[#c9a84c]"
+                     className="h-4 w-4 flex-shrink-0 text-[#C9A55A]"
                      fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round"
                         strokeWidth={2.5} d="M5 13l4 4L19 7" />

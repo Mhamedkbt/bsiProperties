@@ -1,12 +1,15 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 
+import { getSiteUrl } from '@/lib/site'
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
+  const siteUrl = getSiteUrl()
   const titles: Record<string, string> = {
     fr: 'Nos Propriétés — Villas et Appartements au Maroc',
     en: 'Our Properties — Villas and Apartments in Morocco',
@@ -17,7 +20,7 @@ export async function generateMetadata({
     title: titles[locale] ?? titles.fr,
     description: 'Parcourez notre sélection exclusive de propriétés au Maroc.',
     alternates: {
-      canonical: `https://latourImmomaroc.com/${locale}/properties`,
+      canonical: `${siteUrl}/${locale}/properties`,
     },
   }
 }

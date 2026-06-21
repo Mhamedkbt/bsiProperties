@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
+import { getSiteUrl } from '@/lib/site'
 
 export async function generateMetadata({
   params,
@@ -7,28 +8,29 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
+  const siteUrl = getSiteUrl()
   const titles: Record<string, string> = {
-    fr: 'Accueil — Immobilier de Luxe au Maroc',
-    en: 'Home — Luxury Real Estate in Morocco',
-    ar: 'الرئيسية — عقارات فاخرة في المغرب',
-    es: 'Inicio — Inmuebles de Lujo en Marruecos',
+    fr: 'Accueil — BSI Properties | Immobilier de Luxe au Maroc',
+    en: 'Home — BSI Properties | Luxury Real Estate in Morocco',
+    ar: 'الرئيسية — BSI Properties | عقارات فاخرة في المغرب',
+    es: 'Inicio — BSI Properties | Inmuebles de Lujo en Marruecos',
   }
   const descs: Record<string, string> = {
-    fr: 'Trouvez votre propriété de rêve au Maroc avec LaTour Immo. Villas, appartements et espaces commerciaux de luxe.',
-    en: 'Find your dream property in Morocco with LaTour Immo. Luxury villas, apartments and commercial spaces.',
-    ar: 'اعثر على عقار أحلامك في المغرب مع لاتور إيمو. فيلات فاخرة وشقق ومساحات تجارية.',
-    es: 'Encuentra la propiedad de tus sueños en Marruecos con LaTour Immo.',
+    fr: 'BSI Properties — Immobilier de luxe et conciergerie au Maroc. Tanger, Tétouan, Casablanca.',
+    en: 'BSI Properties — Luxury real estate & conciergerie in Morocco. Tangier, Tetouan, Casablanca.',
+    ar: 'BSI Properties — عقارات فاخرة وخدمة كونسierge في المغرب. طنجة، تطوان، الدار البيضاء.',
+    es: 'BSI Properties — Inmuebles de lujo y conserjería en Marruecos.',
   }
   return {
     title: titles[locale] ?? titles.fr,
     description: descs[locale] ?? descs.fr,
     alternates: {
-      canonical: `https://latourImmomaroc.com/${locale}`,
+      canonical: `${siteUrl}/${locale}`,
       languages: {
-        'fr': 'https://latourImmomaroc.com/fr',
-        'en': 'https://latourImmomaroc.com/en',
-        'ar': 'https://latourImmomaroc.com/ar',
-        'es': 'https://latourImmomaroc.com/es',
+        'fr': `${siteUrl}/fr`,
+        'en': `${siteUrl}/en`,
+        'ar': `${siteUrl}/ar`,
+        'es': `${siteUrl}/es`,
       },
     },
   }

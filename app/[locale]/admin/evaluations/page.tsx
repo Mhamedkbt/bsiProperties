@@ -38,7 +38,6 @@ const navItems = [
   { labelKey: "nav_dashboard", href: "/admin/dashboard", icon: "dashboard" },
   { labelKey: "nav_properties", href: "/admin/properties", icon: "properties" },
   { labelKey: "nav_messages", href: "/admin/messages", icon: "messages" },
-  { labelKey: "nav_evaluations", href: "/admin/evaluations", icon: "evaluations" },
 ];
 
 function getIcon(iconType: string) {
@@ -227,7 +226,7 @@ export default function EvaluationsPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#c9a84c]"></div>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#C9A55A]"></div>
           <p className="mt-4 text-gray-600">{t("loading")}</p>
         </div>
       </div>
@@ -237,7 +236,7 @@ export default function EvaluationsPage() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-[#1a2b4a] text-white shadow-lg transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-auto top-16 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-[#6B1929] text-white shadow-lg transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-auto top-16 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -250,7 +249,7 @@ export default function EvaluationsPage() {
                 onClick={closeSidebar}
                 className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors hover:bg-white/10 focus:outline-none focus:bg-white/10"
               >
-                <span className="text-[#c9a84c]">{getIcon(item.icon)}</span>
+                <span className="text-[#C9A55A]">{getIcon(item.icon)}</span>
                 {t(item.labelKey)}
               </Link>
             ))}
@@ -260,7 +259,7 @@ export default function EvaluationsPage() {
             <button
               onClick={handleLogout}
               disabled={logoutLoading}
-              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#c9a84c] px-4 py-3 text-sm font-semibold text-[#1a2b4a] transition-colors hover:bg-[#d4b85e] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#C9A55A] px-4 py-3 text-sm font-semibold text-[#6B1929] transition-colors hover:bg-[#D4B56A] disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#C9A55A]"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -282,7 +281,7 @@ export default function EvaluationsPage() {
         <div className="p-4 sm:p-6 md:p-8 w-full overflow-x-hidden pt-4 md:pt-0">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="mb-4 inline-flex md:hidden items-center justify-center rounded-lg p-2 text-[#1a2b4a] hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-[#c9a84c]"
+            className="mb-4 inline-flex md:hidden items-center justify-center rounded-lg p-2 text-[#6B1929] hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-[#C9A55A]"
             aria-label="Toggle menu"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -295,7 +294,7 @@ export default function EvaluationsPage() {
           </button>
 
           <div className="mt-8 mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#1a2b4a]">{t("manage_evaluations_title")}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#6B1929]">{t("manage_evaluations_title")}</h2>
             <p className="mt-1 text-sm text-gray-600">{evaluations.length} evaluation{evaluations.length !== 1 ? "s" : ""}</p>
           </div>
 
@@ -305,12 +304,12 @@ export default function EvaluationsPage() {
               placeholder="Search by name, email, or city..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent"
+              className="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A55A] focus:border-transparent"
             />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as "all" | "pending" | "reviewed" | "contacted")}
-              className="px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent"
+              className="px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A55A] focus:border-transparent"
             >
               <option value="all">{t("all_statuses")}</option>
               <option value="pending">{t("pending")}</option>
@@ -321,7 +320,7 @@ export default function EvaluationsPage() {
 
           {loading ? (
             <div className="rounded-xl border border-gray-100 bg-white p-8 text-center">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#c9a84c]"></div>
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#C9A55A]"></div>
               <p className="mt-3 text-gray-600">{t("loading_evaluations")}</p>
             </div>
           ) : filteredEvaluations.length === 0 ? (
@@ -411,7 +410,7 @@ export default function EvaluationsPage() {
                           handleStatusChange(evaluation.id, e.target.value as "pending" | "reviewed" | "contacted");
                         }}
                         onClick={(e) => e.stopPropagation()}
-                        className="px-2 py-1 text-xs rounded-lg border border-gray-300 bg-white text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent flex-1 sm:flex-none"
+                        className="px-2 py-1 text-xs rounded-lg border border-gray-300 bg-white text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A55A] focus:border-transparent flex-1 sm:flex-none"
                       >
                         <option value="pending">{t("pending")}</option>
                         <option value="reviewed">{t("reviewed")}</option>
@@ -443,7 +442,7 @@ export default function EvaluationsPage() {
           <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-white shadow-2xl my-auto">
             <div className="sticky top-0 border-b border-gray-200 bg-white p-6 sm:p-8 flex items-start justify-between z-10">
               <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-[#1a2b4a] pr-4">Evaluation from {selectedEvaluation.name ?? "Unknown"}</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#6B1929] pr-4">Evaluation from {selectedEvaluation.name ?? "Unknown"}</h3>
                 <p className="mt-1 text-sm text-gray-600">{selectedEvaluation.created_at ? formatDate(selectedEvaluation.created_at) : "—"}</p>
               </div>
               <button
@@ -464,14 +463,14 @@ export default function EvaluationsPage() {
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-gray-600 mb-1">{t("email")}</h4>
-                  <a href={`mailto:${selectedEvaluation.email ?? ""}`} className="text-[#c9a84c] hover:underline break-all">
+                  <a href={`mailto:${selectedEvaluation.email ?? ""}`} className="text-[#C9A55A] hover:underline break-all">
                     {selectedEvaluation.email ?? "—"}
                   </a>
                 </div>
                 {selectedEvaluation.phone && (
                   <div>
                     <h4 className="text-sm font-semibold text-gray-600 mb-1">{t("phone")}</h4>
-                    <a href={`tel:${selectedEvaluation.phone}`} className="text-[#c9a84c] hover:underline">
+                    <a href={`tel:${selectedEvaluation.phone}`} className="text-[#C9A55A] hover:underline">
                       {selectedEvaluation.phone}
                     </a>
                   </div>
@@ -583,7 +582,7 @@ export default function EvaluationsPage() {
                   onChange={(e) => {
                     handleStatusChange(selectedEvaluation.id, e.target.value as "pending" | "reviewed" | "contacted");
                   }}
-                  className="flex-1 px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:border-transparent"
+                  className="flex-1 px-4 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-900 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A55A] focus:border-transparent"
                 >
                   <option value="pending">{t("mark_pending")}</option>
                   <option value="reviewed">{t("mark_reviewed")}</option>

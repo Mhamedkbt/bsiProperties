@@ -8,6 +8,8 @@ import { supabase } from "@/lib/supabase";
 import { TestimonialsSlider } from "@/components/TestimonialsSlider";
 import { useTranslations, useLocale } from "next-intl";
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
 export const dynamic = "force-dynamic";
 
 const isVideoUrl = (url: string): boolean => {
@@ -29,11 +31,65 @@ interface Property {
 }
 
 const statsData = [
-  { target: 20, suffix: "+", label: "Properties" },
-  { target: 3, suffix: "+", label: "Years Experience" },
-  { target: 30, suffix: "+", label: "Happy Clients" },
-  { target: 6, suffix: "+", label: "Cities" },
+  { target: 500, suffix: "+", labelKey: "stat_properties" },
+  { target: 7, suffix: "+", labelKey: "stat_years_experience" },
+  { target: 3, suffix: "", labelKey: "stat_cities" },
+  { target: 0, suffix: "%", labelKey: "stat_commission" },
 ];
+
+const serviceKeys = [
+  { titleKey: "service1_title", descKey: "service1_desc", icon: "building" },
+  { titleKey: "service2_title", descKey: "service2_desc", icon: "home" },
+  { titleKey: "service3_title", descKey: "service3_desc", icon: "payment" },
+  { titleKey: "service4_title", descKey: "service4_desc", icon: "consult" },
+  { titleKey: "service5_title", descKey: "service5_desc", icon: "vip" },
+  { titleKey: "service6_title", descKey: "service6_desc", icon: "airport" },
+] as const;
+
+function ServiceIcon({ type }: { type: string }) {
+  const className = "h-8 w-8";
+  switch (type) {
+    case "building":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      );
+    case "home":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      );
+    case "payment":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      );
+    case "consult":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      );
+    case "vip":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+      );
+    case "airport":
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
 
 export default function Home() {
   const router = useRouter();
@@ -53,6 +109,10 @@ export default function Home() {
   const statsRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
 
+  const heroRef = useRef<HTMLElement>(null);
+  const [heroReady, setHeroReady] = useState(false);
+  const [heroParallax, setHeroParallax] = useState({ x: 0, y: 0 });
+
   // BLOCK SCROLLING EFFECT
   useEffect(() => {
     if (pageLoading) {
@@ -65,6 +125,31 @@ export default function Home() {
     return () => {
       document.body.style.overflow = "";
     };
+  }, [pageLoading]);
+
+  useEffect(() => {
+    if (pageLoading) {
+      setHeroReady(false);
+      return;
+    }
+    const timer = setTimeout(() => setHeroReady(true), 150);
+    return () => clearTimeout(timer);
+  }, [pageLoading]);
+
+  useEffect(() => {
+    if (pageLoading) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const el = heroRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      setHeroParallax({ x: x * 24, y: y * 16 });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [pageLoading]);
 
   useEffect(() => {
@@ -154,21 +239,20 @@ export default function Home() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'RealEstateAgent',
-            name: 'LaTour Immo',
-            description: 'Agence immobilière de luxe au Maroc',
-            url: 'https://latourImmomaroc.com',
-            logo: 'https://latourImmomaroc.com/images/LaToorImmoLogo.jpg',
-            image: 'https://latourImmomaroc.com/images/LaToorImmoLogo.jpg',
-            telephone: '+212661141811',
-            email: 'contact@latourimmo.ma',
+            name: 'BSI Properties',
+            description: 'Luxury Real Estate & Conciergerie in Morocco',
+            url: siteUrl,
+            logo: `${siteUrl}/images/bsiLogo.png`,
+            image: `${siteUrl}/images/bsiLogo.png`,
+            telephone: '+212620060000',
+            email: 'contact@bsiproperties.ma',
             address: {
               '@type': 'PostalAddress',
               addressLocality: 'Casablanca',
               addressCountry: 'MA',
             },
             areaServed: [
-              'Casablanca', 'Marrakech', 'Agadir',
-              'Rabat', 'Tanger', 'Fès'
+              'Tangier', 'Tetouan', 'Casablanca', 'Marrakech'
             ],
             sameAs: [],
             openingHours: 'Mo-Sa 09:00-18:00',
@@ -177,64 +261,192 @@ export default function Home() {
       />
       {/* Perfect Full Screen Entry Spinner */}
       {pageLoading && (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#1a2b4a] transition-all duration-500">
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#6B1929] transition-all duration-500">
           <div className="relative flex h-20 w-20 items-center justify-center">
             {/* Inner dynamic ring */}
-            <div className="absolute h-full w-full rounded-full border-4 border-[#c9a84c]/10"></div>
-            <div className="absolute h-full w-full rounded-full border-4 border-t-[#c9a84c] border-r-transparent border-b-transparent border-l-transparent animate-spin duration-700"></div>
+            <div className="absolute h-full w-full rounded-full border-4 border-[#C9A55A]/10"></div>
+            <div className="absolute h-full w-full rounded-full border-4 border-t-[#C9A55A] border-r-transparent border-b-transparent border-l-transparent animate-spin duration-700"></div>
             {/* Secondary reverse counter pulse inner core ring */}
             <div className="absolute h-12 w-12 rounded-full border-[3px] border-b-[white] border-t-transparent border-r-transparent border-l-transparent animate-[spin_1s_linear_infinite_reverse] opacity-40"></div>
           </div>
-          <p className="mt-6 text-sm font-semibold tracking-widest text-[#c9a84c] uppercase animate-pulse">
-            LaTour Immo
+          <p className="mt-6 text-sm font-semibold tracking-widest text-[#C9A55A] uppercase animate-pulse">
+            {t("loading_brand")}
           </p>
         </div>
       )}
 
       {/* Dynamic Animated Hero Section */}
-      <section className="relative flex min-h-[90vh] items-center justify-center bg-[#0d1a2e00] px-4 py-20 sm:px-6 lg:px-8 overflow-hidden">
+      <section
+        ref={heroRef}
+        className="relative flex min-h-[90vh] items-center justify-center bg-[#4A1020] px-4 py-20 sm:px-6 lg:px-8 overflow-hidden"
+      >
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <Image
-            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80"
-            alt="Moroccan Modern Architecture"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center scale-125 animate-[aliveBackground_30s_linear_infinite]"
+          <div
+            className="absolute inset-[-8%] will-change-transform"
+            style={{
+              transform: `translate3d(${heroParallax.x}px, ${heroParallax.y}px, 0)`,
+              transition: "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+          >
+            <div className="relative h-full w-full animate-[aliveBackground_30s_ease-in-out_infinite]">
+              <Image
+                src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80"
+                alt="Moroccan Modern Architecture"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center scale-125 opacity-40"
+              />
+            </div>
+          </div>
+
+          <div className="absolute inset-0 bg-gradient-to-br from-[#6B1929]/80 via-[#6B1929]/65 to-[#4A1020]/85 mix-blend-multiply" />
+          <div
+            className="pointer-events-none absolute inset-0 opacity-30 animate-[heroShimmer_8s_ease-in-out_infinite]"
+            style={{
+              background:
+                "linear-gradient(105deg, transparent 40%, rgba(201,165,90,0.15) 50%, transparent 60%)",
+              backgroundSize: "200% 100%",
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a2b4a]/90 via-[#1a2b4a]/85 to-[#0d1a2e]/90 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d1a2e]/40 to-[#0d1a2e]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#4A1020]/40" />
+
+          {/* Floating gold ambient orbs */}
+          <div className="pointer-events-none absolute -left-16 top-1/4 h-64 w-64 rounded-full bg-[#C9A55A]/10 blur-3xl animate-[heroOrbFloat_12s_ease-in-out_infinite]" />
+          <div className="pointer-events-none absolute -right-10 bottom-1/4 h-48 w-48 rounded-full bg-[#C9A55A]/15 blur-3xl animate-[heroOrbFloat_10s_ease-in-out_2s_infinite]" />
+          <div className="pointer-events-none absolute left-1/2 top-10 h-32 w-32 -translate-x-1/2 rounded-full bg-white/5 blur-2xl animate-[heroOrbPulse_6s_ease-in-out_infinite]" />
         </div>
 
         <style jsx global>{`
           @keyframes aliveBackground {
-            0% { transform: scale(1.2) translate(0px, 0px) rotate(0deg); }
-            25% { transform: scale(1.22) translate(-20px, 12px) rotate(0.5deg); }
-            50% { transform: scale(1.25) translate(-10px, -20px) rotate(-0.5deg); }
-            75% { transform: scale(1.22) translate(20px, -10px) rotate(0.3deg); }
-            100% { transform: scale(1.2) translate(0px, 0px) rotate(0deg); }
+            0%, 100% { transform: scale(1.15) translate(0, 0) rotate(0deg); }
+            33% { transform: scale(1.2) translate(-24px, 14px) rotate(0.6deg); }
+            66% { transform: scale(1.18) translate(18px, -18px) rotate(-0.4deg); }
           }
-          @keyframes contentEntrance {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+          @keyframes heroWordIn {
+            from {
+              opacity: 0;
+              transform: translateY(36px) rotateX(12deg);
+              filter: blur(6px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) rotateX(0deg);
+              filter: blur(0);
+            }
+          }
+          @keyframes heroSubtitleIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+              letter-spacing: 0.12em;
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+              letter-spacing: normal;
+            }
+          }
+          @keyframes heroLineExpand {
+            from { transform: scaleX(0); opacity: 0; }
+            to { transform: scaleX(1); opacity: 1; }
+          }
+          @keyframes heroFormIn {
+            from {
+              opacity: 0;
+              transform: translateY(40px) scale(0.96);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+          @keyframes heroShimmer {
+            0%, 100% { background-position: 200% 0; }
+            50% { background-position: -200% 0; }
+          }
+          @keyframes heroOrbFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-28px) scale(1.08); opacity: 1; }
+          }
+          @keyframes heroOrbPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.4; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 0.7; }
+          }
+          @keyframes heroScrollBounce {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(8px); opacity: 1; }
+          }
+          @keyframes heroGlowPulse {
+            0%, 100% { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(201, 165, 90, 0); }
+            50% { box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.5), 0 0 40px -8px rgba(201, 165, 90, 0.35); }
           }
         `}</style>
 
-        <div className="relative z-10 mx-auto w-full max-w-5xl text-center animate-[contentEntrance_1s_ease-out_forwards]">
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-md">
-            {t("hero_title")}
+        <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
+          <div
+            className={`mx-auto mb-8 flex items-center justify-center gap-3 transition-all duration-700 ${
+              heroReady ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <span
+              className={`h-px w-12 origin-right bg-gradient-to-r from-transparent to-[#C9A55A] ${
+                heroReady ? "animate-[heroLineExpand_0.8s_ease-out_forwards]" : "scale-x-0 opacity-0"
+              }`}
+            />
+            <span
+              className={`text-xs font-semibold uppercase tracking-[0.35em] text-[#C9A55A] ${
+                heroReady ? "animate-[heroSubtitleIn_0.9s_ease-out_0.1s_forwards] opacity-0" : "opacity-0"
+              }`}
+            >
+              B.S.I Properties
+            </span>
+            <span
+              className={`h-px w-12 origin-left bg-gradient-to-l from-transparent to-[#C9A55A] ${
+                heroReady ? "animate-[heroLineExpand_0.8s_ease-out_forwards]" : "scale-x-0 opacity-0"
+              }`}
+            />
+          </div>
+
+          <h1 className="perspective-[1000px] text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl drop-shadow-md">
+            {t("hero_title")
+              .split(" ")
+              .map((word, i) => (
+                <span
+                  key={`${word}-${i}`}
+                  className={`inline-block mr-[0.25em] last:mr-0 ${
+                    heroReady
+                      ? "animate-[heroWordIn_0.65s_cubic-bezier(0.22,1,0.36,1)_forwards] opacity-0"
+                      : "opacity-0"
+                  }`}
+                  style={{ animationDelay: heroReady ? `${0.2 + i * 0.07}s` : undefined }}
+                >
+                  {word}
+                </span>
+              ))}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-300 sm:text-xl drop-shadow-sm font-light">
+
+          <p
+            className={`mx-auto mt-6 max-w-2xl text-lg text-gray-200 sm:text-xl drop-shadow-sm font-light ${
+              heroReady
+                ? "animate-[heroSubtitleIn_1s_ease-out_0.75s_forwards] opacity-0"
+                : "opacity-0"
+            }`}
+          >
             {t("hero_subtitle")}
           </p>
 
           <form
             onSubmit={handleSearch}
-            className="mx-auto mt-12 w-full max-w-4xl rounded-2xl bg-white p-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.4)] sm:p-6 transition-all duration-300 hover:shadow-[0_30px_60px_-10px_rgba(0,0,0,0.5)]"
+            className={`mx-auto mt-12 w-full max-w-4xl rounded-2xl bg-white p-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.4)] sm:p-6 transition-all duration-300 hover:shadow-[0_30px_60px_-10px_rgba(0,0,0,0.5)] ${
+              heroReady
+                ? "animate-[heroFormIn_0.9s_cubic-bezier(0.22,1,0.36,1)_1s_forwards,heroGlowPulse_4s_ease-in-out_2s_infinite] opacity-0"
+                : "opacity-0"
+            }`}
           >
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-2">
               <div className="text-left px-2">
-                <label htmlFor="city" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#1a2b4a]">
+                <label htmlFor="city" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#6B1929]">
                   {t("search_city_label")}
                 </label>
                 <input
@@ -243,48 +455,50 @@ export default function Home() {
                   placeholder={t("search_city_placeholder")}
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-4 py-3 text-[#1a2b4a] transition-all placeholder:text-gray-400 focus:border-[#c9a84c] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                  className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-4 py-3 text-[#6B1929] transition-all placeholder:text-gray-400 focus:border-[#C9A55A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                 />
               </div>
 
               <div className="text-left px-2">
-                <label htmlFor="type" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#1a2b4a]">
+                <label htmlFor="type" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#6B1929]">
                   {t("search_type_label")}
                 </label>
                 <select
                   id="type"
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-4 py-3 text-[#1a2b4a] transition-all focus:border-[#c9a84c] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                  className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-4 py-3 text-[#6B1929] transition-all focus:border-[#C9A55A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                 >
                   <option value="">{t("search_type_placeholder")}</option>
                   <option value="apartment">{t("apartment")}</option>
                   <option value="villa">{t("villa")}</option>
+                  <option value="riad">{t("riad")}</option>
                   <option value="land">{t("land")}</option>
                   <option value="commercial">{t("commercial")}</option>
                 </select>
               </div>
 
               <div className="text-left px-2">
-                <label htmlFor="status" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#1a2b4a]">
+                <label htmlFor="status" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#6B1929]">
                   {t("search_status_label")}
                 </label>
                 <select
                   id="status"
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-4 py-3 text-[#1a2b4a] transition-all focus:border-[#c9a84c] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30"
+                  className="w-full rounded-lg border border-gray-200 bg-gray-50/50 px-4 py-3 text-[#6B1929] transition-all focus:border-[#C9A55A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30"
                 >
                   <option value="">{t("search_status_placeholder")}</option>
                   <option value="sale">{t("sale")}</option>
                   <option value="rent">{t("rent")}</option>
+                  <option value="short-term">{t("short_term")}</option>
                 </select>
               </div>
 
               <div className="flex items-end px-2 pt-2 sm:pt-0">
                 <button
                   type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9a84c] px-6 py-3 text-base font-bold text-[#1a2b4a] shadow-md transition-all hover:bg-[#d4b85e] hover:shadow-lg active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:ring-offset-2"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#C9A55A] px-6 py-3 text-base font-bold text-[#6B1929] shadow-md transition-all hover:bg-[#D4B56A] hover:shadow-lg active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-[#C9A55A] focus:ring-offset-2"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -295,13 +509,27 @@ export default function Home() {
             </div>
           </form>
         </div>
+
+        <div
+          className={`pointer-events-none absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 ${
+            heroReady
+              ? "animate-[heroSubtitleIn_0.6s_ease-out_1.4s_forwards,heroScrollBounce_2s_ease-in-out_2s_infinite] opacity-0"
+              : "opacity-0"
+          }`}
+          aria-hidden
+        >
+          <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-white/50">Scroll</span>
+          <svg className="h-5 w-5 text-[#C9A55A]/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
       </section>
 
       {/* Featured Properties Section */}
       <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-[#1a2b4a] sm:text-4xl">
+            <h2 className="text-3xl font-bold text-[#6B1929] sm:text-4xl">
               {t("featured_title")}
             </h2>
             <p className="mt-3 text-lg text-gray-500">
@@ -312,8 +540,8 @@ export default function Home() {
           {loadingProperties && (
             <div className="mt-16 flex flex-col items-center justify-center gap-12">
               <div className="relative flex h-14 w-14 items-center justify-center">
-                <div className="absolute h-full w-full rounded-full border-4 border-[#1a2b4a]/10"></div>
-                <div className="absolute h-full w-full rounded-full border-4 border-t-[#c9a84c] border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+                <div className="absolute h-full w-full rounded-full border-4 border-[#6B1929]/10"></div>
+                <div className="absolute h-full w-full rounded-full border-4 border-t-[#C9A55A] border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
               </div>
               <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {[1, 2, 3].map((i) => (
@@ -344,19 +572,20 @@ export default function Home() {
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
               </div>
-              <p className="text-xl font-semibold text-[#1a2b4a]">{t("featured_empty")}</p>
+              <p className="text-xl font-semibold text-[#6B1929]">{t("featured_empty")}</p>
               <p className="mt-2 text-gray-500">{t("featured_empty_sub")}</p>
             </div>
           )}
 
           {!loadingProperties && featuredProperties.length > 0 && (
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {featuredProperties.map((property) => (
-                <article
-                  key={property.id}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] 
-                             transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)]"
-                >
+            {featuredProperties.map((property) => (
+              <article
+                key={property.id}
+                className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] 
+                           transition-all duration-300 hover:scale-101 hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)]
+                           w-[90%] mx-auto md:w-full"
+              >
                   <div className="relative h-64 w-full overflow-hidden bg-gray-50">
                     {property.images && property.images.length > 0 ? (
                       isVideoUrl(property.images[0]) ? (
@@ -384,7 +613,7 @@ export default function Home() {
                         />
                       )
                     ) : (
-                      <div className="h-full w-full bg-gradient-to-br from-[#1a2b4a] to-[#2a3b5a] flex items-center justify-center">
+                      <div className="h-full w-full bg-gradient-to-br from-[#6B1929] to-[#4A1020] flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                         </svg>
@@ -393,12 +622,12 @@ export default function Home() {
                     
                     <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
                       {property.type && (
-                        <span className="rounded-lg bg-[#1a2b4a] px-3 py-1.5 text-xs font-medium text-white capitalize shadow-sm backdrop-blur-xs">
+                        <span className="rounded-lg bg-[#6B1929] px-3 py-1.5 text-xs font-medium text-white capitalize shadow-sm backdrop-blur-xs">
                           {property.type}
                         </span>
                       )}
                       {property.status && (
-                        <span className="rounded-lg border border-[#1a2b4a]/20 bg-white px-3 py-1.5 text-xs font-medium text-[#1a2b4a] capitalize shadow-sm">
+                        <span className="rounded-lg border border-[#6B1929]/20 bg-white px-3 py-1.5 text-xs font-medium text-[#6B1929] capitalize shadow-sm">
                           {property.status}
                         </span>
                       )}
@@ -407,7 +636,7 @@ export default function Home() {
 
                   <div className="flex flex-1 flex-col p-6">
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-[#1a2b4a] tracking-tight line-clamp-1 group-hover:text-[#c9a84c] transition-colors duration-200">
+                      <h3 className="text-xl font-semibold text-[#6B1929] tracking-tight line-clamp-1 group-hover:text-[#C9A55A] transition-colors duration-200">
                         {property.title ?? "Untitled Property"}
                       </h3>
                       <p className="mt-1.5 text-sm text-gray-400 font-light tracking-wide flex items-center gap-1.5">
@@ -420,7 +649,7 @@ export default function Home() {
                     </div>
 
                     <div className="mt-3 pt-4 border-t border-gray-50 flex items-center justify-between">
-                      <p className="text-lg font-bold text-[#1a2b4a] tracking-tight">
+                      <p className="text-lg font-bold text-[#6B1929] tracking-tight">
                         {property.price
                       ? `${property.price.toLocaleString()} MAD`
                       : t("price_on_request")}
@@ -432,9 +661,9 @@ export default function Home() {
 
                     <Link
                       href={`/${locale}/properties/${property.id}`}
-                      className="mt-5 block w-full rounded-xl bg-[#c9a84c] py-3.5 text-center 
-                                 text-sm font-semibold text-[#1a2b4a] transition-all duration-200 
-                                 hover:bg-[#d4b85e] shadow-xs hover:shadow-sm"
+                      className="mt-5 block w-full rounded-xl bg-[#C9A55A] py-3.5 text-center 
+                                 text-sm font-semibold text-[#6B1929] transition-all duration-200 
+                                 hover:bg-[#D4B56A] shadow-xs hover:shadow-sm"
                     >
                       {t("view_details")}
                     </Link>
@@ -448,9 +677,9 @@ export default function Home() {
             <div className="mt-14 text-center">
               <Link
                 href={`/${locale}/properties`}
-                className="inline-block rounded-xl border-2 border-[#1a2b4a] px-10 py-3.5 
-                           font-semibold text-[#1a2b4a] transition-all duration-200 
-                           hover:bg-[#1a2b4a] hover:text-white"
+                className="inline-block rounded-xl border-2 border-[#6B1929] px-10 py-3.5 
+                           font-semibold text-[#6B1929] transition-all duration-200 
+                           hover:bg-[#6B1929] hover:text-white"
               >
                 {t("view_all")}
               </Link>
@@ -460,15 +689,15 @@ export default function Home() {
       </section>
 
       {/* Stats Counter Section */}
-      <section ref={statsRef} className="bg-[#1a2b4a] px-4 py-20 sm:px-6 lg:px-8">
+      <section ref={statsRef} className="bg-[#6B1929] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-10 gap-x-4 lg:grid-cols-4">
           {statsData.map((stat, idx) => (
-            <div key={stat.label} className="text-center border-r last:border-0 border-white/10 px-2">
-              <p className="text-4xl font-extrabold text-[#c9a84c] sm:text-5xl tabular-nums tracking-tight">
+            <div key={stat.labelKey} className="text-center border-r last:border-0 border-white/10 px-2">
+              <p className="text-4xl font-extrabold text-[#C9A55A] sm:text-5xl tabular-nums tracking-tight">
                 {counts[idx]}{stat.suffix}
               </p>
               <p className="mt-2 text-sm font-medium tracking-wide text-white/90 sm:text-base">
-                {t(`stat_${stat.label.toLowerCase().replace(/\s+/g, "_")}`)}
+                {t(stat.labelKey)}
               </p>
             </div>
           ))}
@@ -479,18 +708,15 @@ export default function Home() {
       <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight text-[#1a2b4a] sm:text-4xl">
+            <h2 className="text-3xl font-bold tracking-tight text-[#6B1929] sm:text-4xl">
               {t("about_title")}
             </h2>
             <p className="mt-6 leading-relaxed text-gray-600 font-light">
               {t("about_p1")}
             </p>
-            <p className="mt-4 leading-relaxed text-gray-600 font-light">
-              {t("about_p2")}
-            </p>
             <Link
               href={`/${locale}/contact`}
-              className="mt-8 inline-block rounded-xl bg-[#c9a84c] px-8 py-3.5 font-bold text-[#1a2b4a] shadow-sm transition-all hover:bg-[#d4b85e] hover:shadow"
+              className="mt-8 inline-block rounded-xl bg-[#C9A55A] px-8 py-3.5 font-bold text-[#6B1929] shadow-sm transition-all hover:bg-[#D4B56A] hover:shadow"
             >
               {t("contact_us")}
             </Link>
@@ -503,10 +729,47 @@ export default function Home() {
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0d1a2e]/20 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#4A1020]/20 to-transparent pointer-events-none" />
           </div>
         </div>
       </section>
+
+      {/* Services Section */}
+      <section className="relative overflow-hidden bg-gray-50 px-4 py-20 sm:px-6 lg:px-8">
+        <div className="pointer-events-none absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#C9A55A]/5 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-[#6B1929]/5 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-[#6B1929] sm:text-4xl">
+              {t("services_title")}
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-gray-600">
+              {t("services_subtitle")}
+            </p>
+            <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-[#C9A55A]" />
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {serviceKeys.map((service, index) => (
+              <div
+                key={service.titleKey}
+                className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#C9A55A]/40 hover:shadow-[0_16px_40px_rgba(107,25,41,0.12)]"
+              >
+                <span className="pointer-events-none absolute -right-2 -top-4 text-7xl font-black leading-none text-[#6B1929]/[0.04] select-none">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="relative mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#6B1929]/5 text-[#C9A55A] ring-1 ring-[#C9A55A]/20 transition-colors duration-300 group-hover:bg-[#6B1929] group-hover:text-white">
+                  <ServiceIcon type={service.icon} />
+                </div>
+                <h3 className="relative text-xl font-bold text-[#6B1929]">{t(service.titleKey)}</h3>
+                <p className="relative mt-2 text-sm leading-relaxed text-gray-600">
+                  {t(service.descKey)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <TestimonialsSlider />
     </>
   );

@@ -10,6 +10,60 @@ interface HighlightItem {
   label: string
 }
 
+const serviceKeys = [
+  { titleKey: 'service1_title', descKey: 'service1_desc', icon: 'building' },
+  { titleKey: 'service2_title', descKey: 'service2_desc', icon: 'home' },
+  { titleKey: 'service3_title', descKey: 'service3_desc', icon: 'payment' },
+  { titleKey: 'service4_title', descKey: 'service4_desc', icon: 'consult' },
+  { titleKey: 'service5_title', descKey: 'service5_desc', icon: 'vip' },
+  { titleKey: 'service6_title', descKey: 'service6_desc', icon: 'airport' },
+] as const
+
+function ServiceIcon({ type }: { type: string }) {
+  const className = 'h-8 w-8'
+  switch (type) {
+    case 'building':
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      )
+    case 'home':
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      )
+    case 'payment':
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    case 'consult':
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      )
+    case 'vip':
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+      )
+    case 'airport':
+      return (
+        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
 const CounterItem = ({ item }: { item: HighlightItem }) => {
   const [count, setCount] = useState<string | number>(0)
   const elementRef = useRef<HTMLParagraphElement>(null)
@@ -59,11 +113,11 @@ const CounterItem = ({ item }: { item: HighlightItem }) => {
   }, [item.value])
 
   return (
-    <div className="rounded-xl border border-gray-100 bg-white p-6 text-center shadow-sm">
-      <p ref={elementRef} className="text-3xl font-bold tabular-nums text-[#c9a84c] sm:text-4xl">
+    <div className="rounded-xl border border-gray-100 bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#C9A55A]/30 hover:shadow-md">
+      <p ref={elementRef} className="text-3xl font-bold tabular-nums text-[#C9A55A] sm:text-4xl">
         {count}
       </p>
-      <p className="mt-2 text-sm font-semibold text-[#1a2b4a] sm:text-base">
+      <p className="mt-2 text-sm font-semibold text-[#6B1929] sm:text-base">
         {item.label}
       </p>
     </div>
@@ -72,6 +126,7 @@ const CounterItem = ({ item }: { item: HighlightItem }) => {
 
 export default function AboutPage() {
   const t = useTranslations('about')
+  const tHome = useTranslations('home')
   const [currentSlide, setCurrentSlide] = useState<number>(0)
 
   const values = [
@@ -127,12 +182,15 @@ export default function AboutPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-[#1a2b4a] px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl text-center">
-          <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+      <section className="relative overflow-hidden bg-[#6B1929] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#4A1020]/60 via-transparent to-[#C9A55A]/10" />
+        <div className="pointer-events-none absolute -right-20 top-0 h-64 w-64 rounded-full bg-[#C9A55A]/10 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl text-center">
+          <div className="mx-auto mb-5 h-1 w-16 rounded-full bg-[#C9A55A]" />
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             {t('title')}
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-300">
+          <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-gray-200 sm:text-xl">
             {t('subtitle')}
           </p>
         </div>
@@ -142,49 +200,96 @@ export default function AboutPage() {
       <section className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <h2 className="text-2xl font-bold text-[#1a2b4a] sm:text-3xl">
+            <h2 className="text-2xl font-bold text-[#6B1929] sm:text-3xl">
               {t('story_title')}
             </h2>
-            <div className="mt-2 h-1 w-16 rounded-full bg-[#c9a84c]" />
+            <div className="mt-2 h-1 w-16 rounded-full bg-[#C9A55A]" />
             <p className="mt-6 leading-relaxed text-gray-600">
               {t('story_p1')}
             </p>
             <p className="mt-4 leading-relaxed text-gray-600">
-              <span className="font-semibold text-[#1a2b4a]">{t('mission_label')}</span>{' '}
+              <span className="font-semibold text-[#6B1929]">{t('mission_label')}</span>{' '}
               {t('mission_text')}{' '}
-              <span className="font-semibold text-[#1a2b4a]">{t('vision_label')}</span>{' '}
+              <span className="font-semibold text-[#6B1929]">{t('vision_label')}</span>{' '}
               {t('vision_text')}
             </p>
           </div>
-          <div className="relative aspect-4/3 overflow-hidden rounded-2xl shadow-xl">
+          <div className="group relative aspect-4/3 overflow-hidden rounded-2xl shadow-xl ring-1 ring-[#C9A55A]/20">
             <Image
               src="/images/modern-luxury-villa-pool-medulin.jpg"
               alt="Luxury villa with pool in Morocco"
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#4A1020]/30 to-transparent" />
           </div>
         </div>
       </section>
 
+
+
+
+
+       {/* Services Section */}
+       <section className="relative overflow-hidden bg-gray-50 px-4 py-20 sm:px-6 lg:px-8">
+        <div className="pointer-events-none absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#C9A55A]/5 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-[#6B1929]/5 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-[#6B1929] sm:text-4xl">
+              {tHome('services_title')}
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-lg text-gray-600">
+              {tHome('services_subtitle')}
+            </p>
+            <div className="mx-auto mt-4 h-1 w-16 rounded-full bg-[#C9A55A]" />
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {serviceKeys.map((service, index) => (
+              <div
+                key={service.titleKey}
+                className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#C9A55A]/40 hover:shadow-[0_16px_40px_rgba(107,25,41,0.12)]"
+              >
+                <span className="pointer-events-none absolute -right-2 -top-4 text-7xl font-black leading-none text-[#6B1929]/[0.04] select-none">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="relative mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#6B1929]/5 text-[#C9A55A] ring-1 ring-[#C9A55A]/20 transition-colors duration-300 group-hover:bg-[#6B1929] group-hover:text-white">
+                  <ServiceIcon type={service.icon} />
+                </div>
+                <h3 className="relative text-xl font-bold text-[#6B1929]">{tHome(service.titleKey)}</h3>
+                <p className="relative mt-2 text-sm leading-relaxed text-gray-600">
+                  {tHome(service.descKey)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
       {/* Values */}
-      <section className="bg-[#1a2b4a] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <div className="mx-auto max-w-7xl">
+      <section className="relative overflow-hidden bg-[#6B1929] px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#4A1020]/40 to-transparent" />
+        <div className="relative mx-auto max-w-7xl">
           <h2 className="text-center text-2xl font-bold text-white sm:text-3xl">
             {t('values_title')}
           </h2>
-          <div className="mx-auto mt-2 h-1 w-16 rounded-full bg-[#c9a84c]" />
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-[#C9A55A]" />
+          <div className="mt-12 grid gap-6 sm:grid-cols-3">
             {values.map((value) => (
               <div
                 key={value.title}
-                className="rounded-xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-sm"
+                className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:border-[#C9A55A]/30 hover:bg-white/10"
               >
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#1a2b4a] text-[#c9a84c] ring-2 ring-[#c9a84c]/40">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#4A1020] text-[#C9A55A] ring-2 ring-[#C9A55A]/40">
                   {value.icon}
                 </div>
-                <h3 className="mt-4 text-lg font-bold text-white">
+                <h3 className="mt-5 text-lg font-bold text-white">
                   {value.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-gray-300">
@@ -197,13 +302,13 @@ export default function AboutPage() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="bg-gray-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <section className="bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-center text-2xl font-bold text-[#1a2b4a] sm:text-3xl">
+          <h2 className="text-center text-2xl font-bold text-[#6B1929] sm:text-3xl">
             {t('why_title')}
           </h2>
-          <div className="mx-auto mt-2 h-1 w-16 rounded-full bg-[#c9a84c]" />
-          <div className="mt-10 grid grid-cols-2 gap-6 lg:grid-cols-4">
+          <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-[#C9A55A]" />
+          <div className="mt-12 grid grid-cols-2 gap-6 lg:grid-cols-4">
             {highlights.map((item) => (
               <CounterItem key={item.label} item={item} />
             ))}

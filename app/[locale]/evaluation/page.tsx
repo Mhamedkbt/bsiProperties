@@ -10,9 +10,9 @@ export const dynamic = 'force-dynamic'
 const isVideoFile = (file: File): boolean => file.type.startsWith('video/')
 
 const inputClassName =
-  'w-full rounded-lg border border-gray-200 px-4 py-3 text-[#1a2b4a] placeholder:text-gray-400 focus:border-[#c9a84c] focus:outline-none focus:ring-2 focus:ring-[#c9a84c]/30'
+  'w-full rounded-lg border border-gray-200 px-4 py-3 text-[#6B1929] placeholder:text-gray-400 focus:border-[#C9A55A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A]/30'
 
-const labelClassName = 'mb-1.5 block text-sm font-medium text-[#1a2b4a]'
+const labelClassName = 'mb-1.5 block text-sm font-medium text-[#6B1929]'
 
 const stepIcons = [
   (
@@ -197,7 +197,7 @@ export default function EvaluationPage() {
 
   return (
     <div>
-      <section className="bg-[#1a2b4a] px-4 py-12 sm:px-6 lg:px-8">
+      <section className="bg-[#6B1929] px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
             {t('request_evaluation')}
@@ -381,8 +381,8 @@ export default function EvaluationPage() {
 
   <div
     className="relative w-full rounded-lg border-2 border-dashed border-gray-200 
-               bg-gray-50 px-4 py-6 text-center hover:border-[#c9a84c] 
-               hover:bg-[#c9a84c]/5 transition-all duration-200 cursor-pointer"
+               bg-gray-50 px-4 py-6 text-center hover:border-[#C9A55A] 
+               hover:bg-[#C9A55A]/5 transition-all duration-200 cursor-pointer"
     onClick={() => fileInputRef.current?.click()}
   >
     <svg
@@ -399,7 +399,7 @@ export default function EvaluationPage() {
         d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
       />
     </svg>
-    <p className="text-sm font-medium text-[#1a2b4a]">
+    <p className="text-sm font-medium text-[#6B1929]">
       {t('upload_click')}
     </p>
     <p className="text-xs text-gray-500 mt-1">
@@ -501,7 +501,7 @@ export default function EvaluationPage() {
           onClick={() => fileInputRef.current?.click()}
           className="h-20 w-20 rounded-lg border-2 border-dashed border-gray-300 
                      flex flex-col items-center justify-center gap-1
-                     hover:border-[#c9a84c] hover:bg-[#c9a84c]/5 
+                     hover:border-[#C9A55A] hover:bg-[#C9A55A]/5 
                      transition-all duration-200 flex-shrink-0"
         >
           <svg
@@ -560,7 +560,7 @@ export default function EvaluationPage() {
                 <button
                   type="submit"
                   disabled={formSending}
-                  className="w-full rounded-lg bg-[#c9a84c] px-6 py-4 text-lg font-bold text-[#1a2b4a] shadow-md transition-colors hover:bg-[#d4b85e] focus:outline-none focus:ring-2 focus:ring-[#c9a84c] focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full rounded-lg bg-[#C9A55A] px-6 py-4 text-lg font-bold text-[#6B1929] shadow-md transition-colors hover:bg-[#D4B56A] focus:outline-none focus:ring-2 focus:ring-[#C9A55A] focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {formSending ? (
                     <span className="flex items-center justify-center gap-2">
@@ -595,10 +595,10 @@ export default function EvaluationPage() {
           )}
 
           <div className="mt-16">
-            <h2 className="text-center text-2xl font-bold text-[#1a2b4a] sm:text-3xl">
+            <h2 className="text-center text-2xl font-bold text-[#6B1929] sm:text-3xl">
               {t('how_it_works')}
             </h2>
-            <div className="mx-auto mt-2 h-1 w-16 rounded-full bg-[#c9a84c]" />
+            <div className="mx-auto mt-2 h-1 w-16 rounded-full bg-[#C9A55A]" />
 
             <div className="mt-10 grid gap-6 sm:grid-cols-3">
               {stepKeys.map((step, index) => (
@@ -606,13 +606,13 @@ export default function EvaluationPage() {
                   key={step.title}
                   className="rounded-xl border border-gray-100 bg-white p-6 text-center shadow-md"
                 >
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#1a2b4a] text-[#c9a84c]">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#6B1929] text-[#C9A55A]">
                     {stepIcons[index]}
                   </div>
-                  <span className="mt-4 inline-block rounded-full bg-[#c9a84c]/15 px-3 py-0.5 text-xs font-semibold text-[#c9a84c]">
+                  <span className="mt-4 inline-block rounded-full bg-[#C9A55A]/15 px-3 py-0.5 text-xs font-semibold text-[#C9A55A]">
                     {t('step')} {index + 1}
                   </span>
-                  <h3 className="mt-3 text-lg font-bold text-[#1a2b4a]">
+                  <h3 className="mt-3 text-lg font-bold text-[#6B1929]">
                     {t(step.title)}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-gray-600">

@@ -6,7 +6,10 @@ import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import { getSiteUrl } from '@/lib/site'
 import '../globals.css'
+
+const siteUrl = getSiteUrl()
 
 const montserrat = Montserrat({
   variable: '--font-montserrat',
@@ -14,11 +17,12 @@ const montserrat = Montserrat({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: 'LaTour Immo — Immobilier de Luxe au Maroc',
-    template: '%s | LaTour Immo',
+    default: 'BSI Properties — Luxury Real Estate in Morocco',
+    template: '%s | BSI Properties',
   },
-  description: 'LaTour Immo est votre agence immobilière de référence au Maroc. Découvrez nos villas de luxe, appartements modernes et espaces commerciaux à Casablanca, Marrakech, Agadir, Rabat et Tanger.',
+  description: 'BSI Properties is your luxury real estate agency in Morocco. Discover off-plan apartments, ready-to-move properties, and conciergerie services in Tangier, Tetouan, and Casablanca.',
   keywords: [
     'immobilier maroc',
     'agence immobilière maroc',
@@ -27,42 +31,42 @@ export const metadata: Metadata = {
     'achat immobilier maroc',
     'location immobilier maroc',
     'luxe immobilier maroc',
+    'tanger immobilier',
+    'tetouan immobilier',
     'casablanca immobilier',
-    'marrakech immobilier',
-    'agadir immobilier',
-    'LaTour Immo',
+    'BSI Properties',
     'real estate morocco',
     'luxury villa morocco',
   ],
-  authors: [{ name: 'LaTour Immo' }],
-  creator: 'LaTour Immo',
-  publisher: 'LaTour Immo',
+  authors: [{ name: 'BSI Properties' }],
+  creator: 'BSI Properties',
+  publisher: 'BSI Properties',
   icons: {
-    icon: '/images/LaToorImmoLogo.jpg',
-    shortcut: '/images/LaToorImmoLogo.jpg',
-    apple: '/images/LaToorImmoLogo.jpg',
+    icon: '/images/bsiLogo.png',
+    shortcut: '/images/bsiLogo.png',
+    apple: '/images/bsiLogo.png',
   },
   openGraph: {
     type: 'website',
     locale: 'fr_MA',
-    url: 'https://latourImmomaroc.com',
-    siteName: 'LaTour Immo',
-    title: 'LaTour Immo — Immobilier de Luxe au Maroc',
-    description: 'Découvrez nos propriétés exclusives au Maroc. Villas, appartements et espaces commerciaux de prestige.',
+    url: siteUrl,
+    siteName: 'BSI Properties',
+    title: 'BSI Properties — Luxury Real Estate in Morocco',
+    description: 'Discover exclusive properties in Morocco. Luxury real estate & conciergerie in Tangier, Tetouan, and Casablanca.',
     images: [
       {
-        url: '/images/LaToorImmoLogo.jpg',
+        url: '/images/bsiLogo.png',
         width: 1200,
         height: 630,
-        alt: 'LaTour Immo',
+        alt: 'BSI Properties',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LaTour Immo — Immobilier de Luxe au Maroc',
-    description: 'Découvrez nos propriétés exclusives au Maroc.',
-    images: ['/images/LaToorImmoLogo.jpg'],
+    title: 'BSI Properties — Luxury Real Estate in Morocco',
+    description: 'Discover exclusive properties in Morocco.',
+    images: ['/images/bsiLogo.png'],
   },
   robots: {
     index: true,

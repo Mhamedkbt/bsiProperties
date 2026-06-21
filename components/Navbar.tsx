@@ -55,7 +55,7 @@ export default function Navbar() {
           className="flex items-center"
           onClick={() => setMenuOpen(false)}
         >
-          <img src="/images/bsiLogo.png" className="h-22 w-auto" alt="BSI Properties" />
+          <img src="/images/bsiLogo.png" className="h-18 w-auto" alt="BSI Properties" />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">

@@ -50,7 +50,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
             <Link href={`/${locale}`} className="inline-block">
-              <img src="/images/bsiLogo.png" className="h-12 w-auto" alt="BSI Properties" />
+              <img src="/images/bsiLogo.png" className="h-18 w-auto" alt="BSI Properties" />
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-gray-300">
               {t("description")}

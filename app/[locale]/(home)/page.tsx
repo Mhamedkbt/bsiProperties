@@ -122,13 +122,16 @@ export default function Home() {
     const releaseScroll = () => {
       html.classList.remove("home-scroll-lock");
       html.style.overflow = "";
+      html.style.height = "";
       body.style.overflow = "";
       body.style.position = "";
       body.style.top = "";
       body.style.left = "";
       body.style.right = "";
       body.style.width = "";
+      body.style.height = "";
       body.style.touchAction = "";
+      window.dispatchEvent(new Event("resize"));
     };
 
     if (!pageLoading) {

@@ -5,18 +5,8 @@ import { usePathname } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
 
 const languages = [
-  {
-    code: 'fr',
-    label: 'Français',
-    short: 'FR',
-    flag: (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" className="h-4 w-6 rounded-sm overflow-hidden flex-shrink-0">
-        <rect width="1" height="2" fill="#002395"/>
-        <rect x="1" width="1" height="2" fill="#FFFFFF"/>
-        <rect x="2" width="1" height="2" fill="#ED2939"/>
-      </svg>
-    ),
-  },
+
+
   {
     code: 'en',
     label: 'English',
@@ -35,6 +25,20 @@ const languages = [
       </svg>
     ),
   },
+
+  {
+    code: 'fr',
+    label: 'Français',
+    short: 'FR',
+    flag: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" className="h-4 w-6 rounded-sm overflow-hidden flex-shrink-0">
+        <rect width="1" height="2" fill="#002395"/>
+        <rect x="1" width="1" height="2" fill="#FFFFFF"/>
+        <rect x="2" width="1" height="2" fill="#ED2939"/>
+      </svg>
+    ),
+  },
+ 
   {
     code: 'ar',
     label: 'العربية',
@@ -50,27 +54,27 @@ const languages = [
       </svg>
     ),
   },
-  {
-    code: 'es',
-    label: 'Español',
-    short: 'ES',
-    flag: (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 500" className="h-4 w-6 rounded-sm overflow-hidden flex-shrink-0">
-        <rect width="750" height="500" fill="#a5001a"/>
-        <rect y="125" width="750" height="250" fill="#fabd00"/>
-        <g transform="translate(190, 185) scale(0.9)">
-          <path d="M0,40 L0,90 C0,115 40,115 40,90 L40,40 Z" fill="#a5001a" stroke="#fabd00" strokeWidth="8"/>
-          <path d="M0,40 L0,90 C0,115 40,115 40,90 L40,40 Z" fill="#fabd00"/>
-          <rect x="-25" y="30" width="10" height="75" fill="#ffffff" stroke="#a5001a" strokeWidth="4"/>
-          <rect x="55" y="30" width="10" height="75" fill="#ffffff" stroke="#a5001a" strokeWidth="4"/>
-          <circle cx="-20" cy="25" r="8" fill="#fabd00"/>
-          <circle cx="60" cy="25" r="8" fill="#fabd00"/>
-          <path d="M-15,15 Q20,-5 55,15 Q20,5 -15,15 Z" fill="#a5001a"/>
-          <path d="M-5,40 L45,40 M-5,65 L45,65 M20,40 L20,105" stroke="#a5001a" strokeWidth="4"/>
-        </g>
-      </svg>
-    ),
-  },
+  // {
+  //   code: 'es',
+  //   label: 'Español',
+  //   short: 'ES',
+  //   flag: (
+  //     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 500" className="h-4 w-6 rounded-sm overflow-hidden flex-shrink-0">
+  //       <rect width="750" height="500" fill="#a5001a"/>
+  //       <rect y="125" width="750" height="250" fill="#fabd00"/>
+  //       <g transform="translate(190, 185) scale(0.9)">
+  //         <path d="M0,40 L0,90 C0,115 40,115 40,90 L40,40 Z" fill="#a5001a" stroke="#fabd00" strokeWidth="8"/>
+  //         <path d="M0,40 L0,90 C0,115 40,115 40,90 L40,40 Z" fill="#fabd00"/>
+  //         <rect x="-25" y="30" width="10" height="75" fill="#ffffff" stroke="#a5001a" strokeWidth="4"/>
+  //         <rect x="55" y="30" width="10" height="75" fill="#ffffff" stroke="#a5001a" strokeWidth="4"/>
+  //         <circle cx="-20" cy="25" r="8" fill="#fabd00"/>
+  //         <circle cx="60" cy="25" r="8" fill="#fabd00"/>
+  //         <path d="M-15,15 Q20,-5 55,15 Q20,5 -15,15 Z" fill="#a5001a"/>
+  //         <path d="M-5,40 L45,40 M-5,65 L45,65 M20,40 L20,105" stroke="#a5001a" strokeWidth="4"/>
+  //       </g>
+  //     </svg>
+  //   ),
+  // },
 ]
 
 export default function LanguageSwitcher() {
@@ -80,7 +84,7 @@ export default function LanguageSwitcher() {
   const [openUpward, setOpenUpward] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
-  const current = languages.find((l) => l.code === locale) ?? languages[0]
+  const current = languages.find((l) => l.code === locale) ?? languages[1]
 
   const switchLanguage = (newLocale: string) => {
     const segments = pathname.split('/')

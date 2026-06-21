@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { TestimonialsSlider } from "@/components/TestimonialsSlider";
 import { useTranslations, useLocale } from "next-intl";
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://bsiproperties.vercel.app/";
 
 export const dynamic = "force-dynamic";
 

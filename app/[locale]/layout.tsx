@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   creator: 'BSI Properties',
   publisher: 'BSI Properties',
   icons: {
-    icon: '/images/bsiLogo.png',
-    shortcut: '/images/bsiLogo.png',
-    apple: '/images/bsiLogo.png',
+    icon: '/images/bsiLogo.jpg',
+    shortcut: '/images/bsiLogo.jpg',
+    apple: '/images/bsiLogo.jpg',
   },
   openGraph: {
     type: 'website',
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     description: 'Discover exclusive properties in Morocco. Luxury real estate & conciergerie in Tangier, Tetouan, and Casablanca.',
     images: [
       {
-        url: '/images/bsiLogo.png',
+        url: '/images/bsiLogo.jpg',
         width: 1200,
         height: 630,
         alt: 'BSI Properties',
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'BSI Properties — Luxury Real Estate in Morocco',
     description: 'Discover exclusive properties in Morocco.',
-    images: ['/images/bsiLogo.png'],
+    images: ['/images/bsiLogo.jpg'],
   },
   robots: {
     index: true,

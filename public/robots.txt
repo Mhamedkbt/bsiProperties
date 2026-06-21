@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://localhost:3003/sitemap.xml
+Sitemap: https://bsiproperties.vercel.app/sitemap.xml
 
 Disallow: /admin/
 Disallow: /api/

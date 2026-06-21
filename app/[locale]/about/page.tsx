@@ -254,7 +254,7 @@ export default function AboutPage() {
                 <span className="pointer-events-none absolute -right-2 -top-4 text-7xl font-black leading-none text-[#6B1929]/[0.04] select-none">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <div className="relative mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#6B1929]/5 text-[#C9A55A] ring-1 ring-[#C9A55A]/20 transition-colors duration-300 group-hover:bg-[#6B1929] group-hover:text-white">
+                <div className="relative mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#6B1929] text-white ring-1 ring-[#C9A55A]/20 transition-colors duration-300 group-hover:bg-[#6B1929] group-hover:text-white">
                   <ServiceIcon type={service.icon} />
                 </div>
                 <h3 className="relative text-xl font-bold text-[#6B1929]">{tHome(service.titleKey)}</h3>

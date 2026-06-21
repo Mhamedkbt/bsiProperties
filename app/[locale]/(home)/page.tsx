@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState, useEffect, useRef } from "react";
+import { FormEvent, useState, useEffect, useLayoutEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { TestimonialsSlider } from "@/components/TestimonialsSlider";
 import { useTranslations, useLocale } from "next-intl";
@@ -113,17 +113,40 @@ export default function Home() {
   const [heroReady, setHeroReady] = useState(false);
   const [heroParallax, setHeroParallax] = useState({ x: 0, y: 0 });
 
-  // BLOCK SCROLLING EFFECT
-  useEffect(() => {
-    if (pageLoading) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+  // BLOCK SCROLLING EFFECT — only while loading overlay is visible
+  useLayoutEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    const releaseScroll = () => {
+      html.classList.remove("home-scroll-lock");
+      html.style.overflow = "";
+      body.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.touchAction = "";
+    };
+
+    if (!pageLoading) {
+      releaseScroll();
+      return;
     }
 
-    // Cleanup function to ensure scroll is restored if component unmounts unexpectedly
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+
+    const blockTouch = (e: TouchEvent) => {
+      e.preventDefault();
+    };
+
+    document.addEventListener("touchmove", blockTouch, { passive: false });
+
     return () => {
-      document.body.style.overflow = "";
+      document.removeEventListener("touchmove", blockTouch);
+      releaseScroll();
     };
   }, [pageLoading]);
 
@@ -132,7 +155,7 @@ export default function Home() {
       setHeroReady(false);
       return;
     }
-    const timer = setTimeout(() => setHeroReady(true), 150);
+    const timer = setTimeout(() => setHeroReady(true), 50);
     return () => clearTimeout(timer);
   }, [pageLoading]);
 
@@ -261,7 +284,7 @@ export default function Home() {
       />
       {/* Perfect Full Screen Entry Spinner */}
       {pageLoading && (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#6B1929] transition-all duration-500">
+        <div className="fixed inset-0 z-[9999] flex h-[100dvh] w-full touch-none overscroll-none flex-col items-center justify-center bg-[#6B1929] transition-all duration-500">
           <div className="relative flex h-20 w-20 items-center justify-center">
             {/* Inner dynamic ring */}
             <div className="absolute h-full w-full rounded-full border-4 border-[#C9A55A]/10"></div>
@@ -275,6 +298,8 @@ export default function Home() {
         </div>
       )}
 
+      {!pageLoading && (
+      <>
       {/* Dynamic Animated Hero Section */}
       <section
         ref={heroRef}
@@ -285,7 +310,7 @@ export default function Home() {
             className="absolute inset-[-8%] will-change-transform"
             style={{
               transform: `translate3d(${heroParallax.x}px, ${heroParallax.y}px, 0)`,
-              transition: "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
+              transition: "transform 0.22s cubic-bezier(0.22, 1, 0.36, 1)",
             }}
           >
             <div className="relative h-full w-full animate-[aliveBackground_30s_ease-in-out_infinite]">
@@ -326,8 +351,8 @@ export default function Home() {
           @keyframes heroWordIn {
             from {
               opacity: 0;
-              transform: translateY(36px) rotateX(12deg);
-              filter: blur(6px);
+              transform: translateY(24px) rotateX(8deg);
+              filter: blur(4px);
             }
             to {
               opacity: 1;
@@ -338,8 +363,8 @@ export default function Home() {
           @keyframes heroSubtitleIn {
             from {
               opacity: 0;
-              transform: translateY(20px);
-              letter-spacing: 0.12em;
+              transform: translateY(14px);
+              letter-spacing: 0.08em;
             }
             to {
               opacity: 1;
@@ -354,7 +379,7 @@ export default function Home() {
           @keyframes heroFormIn {
             from {
               opacity: 0;
-              transform: translateY(40px) scale(0.96);
+              transform: translateY(24px) scale(0.98);
             }
             to {
               opacity: 1;
@@ -385,25 +410,25 @@ export default function Home() {
 
         <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
           <div
-            className={`mx-auto mb-8 flex items-center justify-center gap-3 transition-all duration-700 ${
+            className={`mx-auto mb-8 flex items-center justify-center gap-3 transition-all duration-300 ${
               heroReady ? "opacity-100" : "opacity-0"
             }`}
           >
             <span
               className={`h-px w-12 origin-right bg-gradient-to-r from-transparent to-[#C9A55A] ${
-                heroReady ? "animate-[heroLineExpand_0.8s_ease-out_forwards]" : "scale-x-0 opacity-0"
+                heroReady ? "animate-[heroLineExpand_0.45s_ease-out_forwards]" : "scale-x-0 opacity-0"
               }`}
             />
             <span
               className={`text-xs font-semibold uppercase tracking-[0.35em] text-[#C9A55A] ${
-                heroReady ? "animate-[heroSubtitleIn_0.9s_ease-out_0.1s_forwards] opacity-0" : "opacity-0"
+                heroReady ? "animate-[heroSubtitleIn_0.45s_ease-out_0.05s_forwards] opacity-0" : "opacity-0"
               }`}
             >
               B.S.I Properties
             </span>
             <span
               className={`h-px w-12 origin-left bg-gradient-to-l from-transparent to-[#C9A55A] ${
-                heroReady ? "animate-[heroLineExpand_0.8s_ease-out_forwards]" : "scale-x-0 opacity-0"
+                heroReady ? "animate-[heroLineExpand_0.45s_ease-out_forwards]" : "scale-x-0 opacity-0"
               }`}
             />
           </div>
@@ -416,10 +441,10 @@ export default function Home() {
                   key={`${word}-${i}`}
                   className={`inline-block mr-[0.25em] last:mr-0 ${
                     heroReady
-                      ? "animate-[heroWordIn_0.65s_cubic-bezier(0.22,1,0.36,1)_forwards] opacity-0"
+                      ? "animate-[heroWordIn_0.38s_cubic-bezier(0.22,1,0.36,1)_forwards] opacity-0"
                       : "opacity-0"
                   }`}
-                  style={{ animationDelay: heroReady ? `${0.2 + i * 0.07}s` : undefined }}
+                  style={{ animationDelay: heroReady ? `${0.06 + i * 0.035}s` : undefined }}
                 >
                   {word}
                 </span>
@@ -429,7 +454,7 @@ export default function Home() {
           <p
             className={`mx-auto mt-6 max-w-2xl text-lg text-gray-200 sm:text-xl drop-shadow-sm font-light ${
               heroReady
-                ? "animate-[heroSubtitleIn_1s_ease-out_0.75s_forwards] opacity-0"
+                ? "animate-[heroSubtitleIn_0.5s_ease-out_0.28s_forwards] opacity-0"
                 : "opacity-0"
             }`}
           >
@@ -440,7 +465,7 @@ export default function Home() {
             onSubmit={handleSearch}
             className={`mx-auto mt-12 w-full max-w-4xl rounded-2xl bg-white p-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.4)] sm:p-6 transition-all duration-300 hover:shadow-[0_30px_60px_-10px_rgba(0,0,0,0.5)] ${
               heroReady
-                ? "animate-[heroFormIn_0.9s_cubic-bezier(0.22,1,0.36,1)_1s_forwards,heroGlowPulse_4s_ease-in-out_2s_infinite] opacity-0"
+                ? "animate-[heroFormIn_0.5s_cubic-bezier(0.22,1,0.36,1)_0.42s_forwards,heroGlowPulse_4s_ease-in-out_1s_infinite] opacity-0"
                 : "opacity-0"
             }`}
           >
@@ -513,7 +538,7 @@ export default function Home() {
         <div
           className={`pointer-events-none absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 ${
             heroReady
-              ? "animate-[heroSubtitleIn_0.6s_ease-out_1.4s_forwards,heroScrollBounce_2s_ease-in-out_2s_infinite] opacity-0"
+              ? "animate-[heroSubtitleIn_0.35s_ease-out_0.55s_forwards,heroScrollBounce_2s_ease-in-out_0.9s_infinite] opacity-0"
               : "opacity-0"
           }`}
           aria-hidden
@@ -584,7 +609,7 @@ export default function Home() {
                 key={property.id}
                 className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] 
                            transition-all duration-300 hover:scale-101 hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)]
-                           w-[90%] mx-auto md:w-full"
+                           w-[95%] mx-auto md:w-full"
               >
                   <div className="relative h-64 w-full overflow-hidden bg-gray-50">
                     {property.images && property.images.length > 0 ? (
@@ -757,7 +782,7 @@ export default function Home() {
                 <span className="pointer-events-none absolute -right-2 -top-4 text-7xl font-black leading-none text-[#6B1929]/[0.04] select-none">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <div className="relative mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#6B1929]/5 text-[#C9A55A] ring-1 ring-[#C9A55A]/20 transition-colors duration-300 group-hover:bg-[#6B1929] group-hover:text-white">
+                <div className="relative mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#6B1929] text-white ring-1 ring-[#C9A55A]/20 transition-colors duration-300 group-hover:bg-[#6B1929] group-hover:text-white">
                   <ServiceIcon type={service.icon} />
                 </div>
                 <h3 className="relative text-xl font-bold text-[#6B1929]">{t(service.titleKey)}</h3>
@@ -771,6 +796,8 @@ export default function Home() {
       </section>
 
       <TestimonialsSlider />
+      </>
+      )}
     </>
   );
 }

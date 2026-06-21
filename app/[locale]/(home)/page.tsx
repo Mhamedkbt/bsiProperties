@@ -31,10 +31,11 @@ interface Property {
 }
 
 const statsData = [
-  { target: 500, suffix: "+", labelKey: "stat_properties" },
-  { target: 7, suffix: "+", labelKey: "stat_years_experience" },
-  { target: 3, suffix: "", labelKey: "stat_cities" },
-  { target: 0, suffix: "%", labelKey: "stat_commission" },
+    { target: 100, suffix: "+", labelKey: "stat_properties" },
+    { target: 7, suffix: "+", labelKey: "stat_years_experience" },
+    { target: 3, suffix: "+", labelKey: "stat_cities" },
+    { target: 24, suffix: "/7", labelKey: "stat_support" }, // Fixed: 24 animates, /7 displays nicely alongside it!
+  
 ];
 
 const serviceKeys = [
@@ -205,6 +206,8 @@ export default function Home() {
 
   // Scroll-triggered counter effect
   useEffect(() => {
+    if (pageLoading) return;
+
     const currentRef = statsRef.current;
     if (!currentRef) return;
 
@@ -242,7 +245,7 @@ export default function Home() {
 
     observer.observe(currentRef);
     return () => observer.disconnect();
-  }, []);
+  }, [pageLoading]);
 
   function handleSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -303,7 +306,7 @@ export default function Home() {
       {/* Dynamic Animated Hero Section */}
       <section
         ref={heroRef}
-        className="relative flex min-h-[90vh] items-center justify-center bg-[#4A1020] px-4 py-20 sm:px-6 lg:px-8 overflow-hidden"
+        className="relative flex min-h-[90vh] items-center justify-center bg-[#4a102025] px-4 py-20 sm:px-6 lg:px-8 overflow-hidden"
       >
         <div className="absolute inset-0 z-0 overflow-hidden">
           <div

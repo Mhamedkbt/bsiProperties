@@ -553,7 +553,7 @@ export default function PropertyPage() {
                   {similarProperties.map((item) => (
                     <article
                     key={item.id}
-                    className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl w-[90%] mx-auto sm:w-full"
+                    className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-xl w-[95%] mx-auto sm:w-full"
                   >
                       {item.images && item.images.length > 0 ? (
                         isVideoUrl(item.images[0]) ? (
